@@ -1,8 +1,11 @@
+// Do Friday at 5pm!
 package com.revature.eval.java.core;
 
+import java.lang.reflect.Array;
 import java.time.temporal.Temporal;
 import java.util.List;
 import java.util.Map;
+import java.util.Collection;
 
 public class EvaluationService {
 
@@ -31,7 +34,15 @@ public class EvaluationService {
 	 */
 	public String acronym(String phrase) {
 		// TODO Write an implementation for this method declaration
-		return null;
+		//return null;
+		
+		String tla = "";
+		String[] stringArray = phrase.split("[- ]");
+		for(int i=0; i<stringArray.length; i++) {
+			tla += Character.toUpperCase(stringArray[i].charAt(0));
+		}
+		
+		return tla;
 	}
 
 	/**
@@ -85,17 +96,44 @@ public class EvaluationService {
 
 		public boolean isEquilateral() {
 			// TODO Write an implementation for this method declaration
-			return false;
+			//return false;
+			
+			boolean equilateral = true;
+			if(
+					Double.compare(this.sideOne, this.sideTwo) != 0 &&
+					Double.compare(this.sideThree, this.sideTwo) != 0 &&
+					Double.compare(this.sideOne, this.sideThree) != 0
+			)
+				equilateral = false;
+			return equilateral;
 		}
 
 		public boolean isIsosceles() {
 			// TODO Write an implementation for this method declaration
-			return false;
+			//return false;
+
+			boolean isosceles = false;
+			if(
+					Double.compare(this.sideOne, this.sideTwo) == 0 ||
+					Double.compare(this.sideThree, this.sideTwo) == 0 ||
+					Double.compare(this.sideOne, this.sideThree) == 0
+			)
+				isosceles = true;
+			return isosceles;
 		}
 
 		public boolean isScalene() {
 			// TODO Write an implementation for this method declaration
-			return false;
+			//return false;
+
+			boolean scalene = true;
+			if(
+					Double.compare(this.sideOne, this.sideTwo) == 0 ||
+					Double.compare(this.sideThree, this.sideTwo) == 0 ||
+					Double.compare(this.sideOne, this.sideThree) == 0
+			)
+				scalene = false;
+			return scalene;
 		}
 
 	}
@@ -117,7 +155,49 @@ public class EvaluationService {
 	 */
 	public int getScrabbleScore(String string) {
 		// TODO Write an implementation for this method declaration
-		return 0;
+		//return 0;
+		String score1 = "AEIOULNRST"; // Score of 1
+		String score2 = "DG"; // Score of 2
+		String score3 = "BCMP"; // Score of 3
+		String score4 = "FHVWY"; // Score of 4
+		String score5 = "K"; // Score of 5
+		String score8 = "JX"; // Score of 8
+		String score10 = "QZ"; // Score of 10
+		
+		int scoreCounter = 0;
+		
+		for(int i=0; i<string.length(); i++) {
+			if(score1.contains(Character.toString(Character.toUpperCase(string.charAt(i))))) {
+				scoreCounter += 1;
+				continue;
+			}
+			if(score2.contains(Character.toString(Character.toUpperCase(string.charAt(i))))) {
+				scoreCounter += 2;
+				continue;
+			}
+			if(score3.contains(Character.toString(Character.toUpperCase(string.charAt(i))))) {
+				scoreCounter += 3;
+				continue;
+			}
+			if(score4.contains(Character.toString(Character.toUpperCase(string.charAt(i))))) {
+				scoreCounter += 4;
+				continue;
+			}
+			if(score5.contains(Character.toString(Character.toUpperCase(string.charAt(i))))) {
+				scoreCounter += 5;
+				continue;
+			}
+			if(score8.contains(Character.toString(Character.toUpperCase(string.charAt(i))))) {
+				scoreCounter += 8;
+				continue;
+			}
+			if(score10.contains(Character.toString(Character.toUpperCase(string.charAt(i))))) {
+				scoreCounter += 10;
+				continue;
+			}
+		}
+		
+		return scoreCounter;
 	}
 
 	/**
@@ -153,7 +233,17 @@ public class EvaluationService {
 	 */
 	public String cleanPhoneNumber(String string) {
 		// TODO Write an implementation for this method declaration
-		return null;
+		//return null;
+		
+		String phoneNumber = "";
+		char[] charArray = string.toCharArray();
+		for(int i=0; i<charArray.length; i++)
+			if(Character.isDigit(charArray[i]))
+				phoneNumber += charArray[i];
+		if(phoneNumber.length() != 10)
+			throw new IllegalArgumentException();
+
+		return phoneNumber;
 	}
 
 	/**
@@ -167,7 +257,25 @@ public class EvaluationService {
 	 */
 	public Map<String, Integer> wordCount(String string) {
 		// TODO Write an implementation for this method declaration
-		return null;
+		//return null;
+		
+	
+		int strCount;
+		String[] stringArray = string.split(" ");
+		String[] stringUnique;
+		Map<String, Integer> wordOccurrence = new java.util.HashMap<>();
+		/*
+		for(int i=0; i<stringUnique.length; i++) {
+			strCount=0;
+			for(int j=0; j<stringArray.length; j++)
+				if(stringUnique[i]==stringArray[j])
+					strCount++;
+			wordOccurrence.put(stringArray[i],i);
+		}
+
+		*/
+		return wordOccurrence;
+	
 	}
 
 	/**
@@ -210,6 +318,7 @@ public class EvaluationService {
 
 		public int indexOf(T t) {
 			// TODO Write an implementation for this method declaration
+			//int searchIndex = Array.getLength(t);
 			return 0;
 		}
 
