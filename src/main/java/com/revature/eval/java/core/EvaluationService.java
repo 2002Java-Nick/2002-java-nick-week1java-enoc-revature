@@ -543,7 +543,39 @@ public class EvaluationService {
 
 		public String rotate(String string) {
 			// TODO Write an implementation for this method declaration
-			return null;
+			//return null;
+			
+			int charAsInt;
+			char[] charArray = string.toCharArray();
+			char[] shiftedArray = new char[charArray.length];
+			for(int i=0; i<charArray.length; i++) {
+				//if(charArray[i]+this.key < )
+				if(!Character.isAlphabetic(charArray[i])) {
+					shiftedArray[i] = charArray[i];
+					continue;
+				}
+
+				charAsInt = charArray[i] + this.key;
+				//if(Character.isUpperCase(charArray[i]) && charAsInt > 90) {
+				if(Character.isUpperCase(charArray[i]) ) {
+					if(charAsInt > 90) {
+					shiftedArray[i] = (char) (charAsInt-26);
+					} else {
+					shiftedArray[i] = (char) (charAsInt);
+					}
+				} else {
+				//if(Character.isLowerCase(charArray[i]) && charAsInt > 122) {
+					if(charAsInt > 122) {
+						shiftedArray[i] = (char) (charAsInt-26);
+					} else {
+						shiftedArray[i] = (char) (charAsInt);
+					}
+				}
+				
+			}
+
+			
+			return new String(shiftedArray);
 		}
 
 	}
@@ -562,9 +594,47 @@ public class EvaluationService {
 	 */
 	public int calculateNthPrime(int i) {
 		// TODO Write an implementation for this method declaration
-		return 0;
-	}
+		//return 0;
+		
+		//boolean morePrimes = true;
+		//int runningPrime = 2;
+		int nthPrime;
+		//int runningCount = 0;
+		int runningInput = 2;
+		List<Long> primeList = new ArrayList<>();
+		List<Long> tempList = new ArrayList<>();
 
+		//public List<Long> calculatePrimeFactorsOf(long l) {
+		// Generate primes
+		//while(i<runningCount && morePrimes) {
+		//while(i<runningCount) {
+		while(i>primeList.size()) {
+			/*
+			if(i%runningPrime == 0) {
+				i /= runningPrime;
+			} else {
+				runningPrime++;
+			}
+			if(i/runningPrime == 0) {
+				morePrimes = false;
+			}
+			*/
+			while(primeList.size() <= tempList.size()) {
+				tempList = this.calculatePrimeFactorsOf(runningInput);
+				runningInput++;
+			}
+			//primeList = tempList;
+			primeList.clear();
+			primeList.addAll(tempList);
+			//runningCount = primeList.size();
+			//runningCount++;
+		}
+		
+		//return runningPrime;
+		nthPrime =  java.lang.Math.toIntExact(primeList.get(primeList.size()-1));
+		//return (int) primeList.get(primeList.size()-1);
+		return nthPrime;
+	}
 	/**
 	 * 13 & 14. Create an implementation of the atbash cipher, an ancient encryption
 	 * system created in the Middle East.
@@ -599,7 +669,50 @@ public class EvaluationService {
 		 */
 		public static String encode(String string) {
 			// TODO Write an implementation for this method declaration
-			return null;
+			//return null;
+			int charAsInt;
+			char[] charArray = string.toCharArray();
+			ArrayList<Character> shiftedArray = new ArrayList<>();
+			for(int i=0; i<charArray.length; i++) {
+				if(Character.isDigit(charArray[i])) {
+					shiftedArray.add(charArray[i]);
+					continue;
+				} else if(!Character.isLetter(charArray[i])){
+					continue;
+				}
+
+				if(Character.isUpperCase(charArray[i]) ) {
+					charArray[i] = Character.toLowerCase(charArray[i]);
+				}
+				charAsInt = charArray[i];
+				shiftedArray.add((char) (122 - (charAsInt-97)));
+				
+			}
+
+			String beforeSpaces = "";
+			for(char letter : shiftedArray)
+				beforeSpaces += letter;
+
+			String afterSpaces = "";
+			int i=0;
+			int offset = 0;
+			while(i <= beforeSpaces.length()) {
+				if(i % 6 == 0) {
+					afterSpaces += " ";
+					offset++;
+				} else {
+					afterSpaces += Character.toString(beforeSpaces.charAt(i-offset));
+				}
+				i++;
+			}
+			if(i % 6 == 0) {
+				afterSpaces += " ";
+			}
+			int k = beforeSpaces.length();
+			for(int j=offset-1; j>0; j--) {
+				afterSpaces += beforeSpaces.charAt(k-j);
+			}
+			return afterSpaces.trim();
 		}
 
 		/**
@@ -610,7 +723,51 @@ public class EvaluationService {
 		 */
 		public static String decode(String string) {
 			// TODO Write an implementation for this method declaration
-			return null;
+			//return null;
+
+			int charAsInt;
+			char[] charArray = string.toCharArray();
+			ArrayList<Character> shiftedArray = new ArrayList<>();
+			for(int i=0; i<charArray.length; i++) {
+				if(Character.isDigit(charArray[i])) {
+					shiftedArray.add(charArray[i]);
+					continue;
+				} else if(!Character.isLetter(charArray[i])){
+					continue;
+				}
+
+				if(Character.isUpperCase(charArray[i]) ) {
+					charArray[i] = Character.toLowerCase(charArray[i]);
+				}
+				charAsInt = charArray[i];
+				shiftedArray.add((char) (122 - (charAsInt-97)));
+				
+			}
+
+			String beforeSpaces = "";
+			for(char letter : shiftedArray)
+				beforeSpaces += letter;
+
+			String afterSpaces = "";
+			int i=0;
+			int offset = 0;
+			while(i <= beforeSpaces.length()) {
+				if(i % 6 == 0) {
+					afterSpaces += " ";
+					offset++;
+				} else {
+					afterSpaces += Character.toString(beforeSpaces.charAt(i-offset));
+				}
+				i++;
+			}
+			if(i % 6 == 0) {
+				afterSpaces += " ";
+			}
+			int k = beforeSpaces.length();
+			for(int j=offset-1; j>0; j--) {
+				afterSpaces += beforeSpaces.charAt(k-j);
+			}
+			return afterSpaces.replaceAll(" ","");
 		}
 	}
 
@@ -638,7 +795,27 @@ public class EvaluationService {
 	 */
 	public boolean isValidIsbn(String string) {
 		// TODO Write an implementation for this method declaration
-		return false;
+		//return false;
+		
+		int[] isbn = new int[11];
+		String isbnString = string.replaceAll("-","");
+		
+		// Convert X or validate string
+		if(isbnString.charAt(isbnString.length()-1) == 'X') {
+			isbnString = isbnString.substring(isbnString.length()-2);
+			isbnString = isbnString.substring(isbnString.length()-2, isbnString.length()-1);
+		}
+
+		// Make string into int[]
+		for(int i=0; i<isbnString.length(); i++) {
+			isbn[i] = isbnString.charAt(i);
+		}
+		
+		// Validate
+		if((isbn[0]*10 + isbn[1]*9 + isbn[2]*8 + isbn[3]*7 + isbn[4]*6 + isbn[5]*5 + isbn[6]*4 + isbn[7]*3 + isbn[8]*2 + isbn[9]) % 11 == 0)
+			return true;
+		else
+			return false;
 	}
 
 	/**
@@ -656,7 +833,22 @@ public class EvaluationService {
 	 */
 	public boolean isPangram(String string) {
 		// TODO Write an implementation for this method declaration
-		return false;
+		//return false;
+
+		boolean[] letters = new boolean[26];
+		string = string.replaceAll(" ", "");
+		string = string.toLowerCase();
+		for(int i=0; i<string.length(); i++) {
+			letters[string.charAt(i) - 97] = true;
+		}
+		
+		//List<Boolean> validateList = new ArrayList<>();
+		boolean validationFlag = true;
+		for(boolean elem : letters) {
+		if(elem != true)
+			validationFlag = false;
+		}
+		return validationFlag;
 	}
 
 	/**
