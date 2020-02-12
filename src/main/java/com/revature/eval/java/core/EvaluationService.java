@@ -2,11 +2,13 @@
 package com.revature.eval.java.core;
 
 import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.time.temporal.Temporal;
 import java.util.List;
 import java.util.Map;
 import java.util.Collection;
 
+// revisit: 6,7
 public class EvaluationService {
 
 	/**
@@ -260,22 +262,46 @@ public class EvaluationService {
 		//return null;
 		
 	
-		int strCount;
-		String[] stringArray = string.split(" ");
-		String[] stringUnique;
+		int strCount = 0;
+		//String[] stringArray = string.split("[\\s|,|\n]");
+		String[] stringArray = string.split("[ ,\n]");
+		//String[] uniqueArray;
+		//ArrayList<String> uniqueArray = new ArrayList<>();
+		//String[] stringUnique;
 		Map<String, Integer> wordOccurrence = new java.util.HashMap<>();
+		java.util.HashSet<String> uniqueSet = new java.util.HashSet<String>();
+		java.util.Collections.addAll(uniqueSet,stringArray);
+		Object[] uniqueArray = uniqueSet.toArray();
+		//String[] uniqueArray = (String[])uniqueSet.toArray();
 		/*
-		for(int i=0; i<stringUnique.length; i++) {
+		for(int i=0; i<stringArray.length; i++) {
+			if(!string.contains(stringArray[i]))
+				uniqueArray.add(stringArray[i]);
+		}
+		for(int i=0; i<uniqueArray.size(); i++) {
 			strCount=0;
 			for(int j=0; j<stringArray.length; j++)
-				if(stringUnique[i]==stringArray[j])
+				if(uniqueArray.get(i)==stringArray[j])
 					strCount++;
-			wordOccurrence.put(stringArray[i],i);
+			wordOccurrence.put(uniqueArray.get(i),strCount);
 		}
-
+		for(int i=0; i<uniqueArray.size(); i++) {
+			strCount=0;
+			for(int j=0; j<stringArray.length; j++)
+				if(uniqueArray.get(i)==stringArray[j])
+					strCount++;
+			wordOccurrence.put(uniqueArray.get(i),strCount);
+		}
 		*/
+		for(int i=0; i<uniqueArray.length; i++) {
+			for(int j=0; j<stringArray.length; j++) {
+				if((String) uniqueArray[i]==stringArray[j])
+					strCount++;
+			}
+			wordOccurrence.put((String)uniqueArray[i],strCount);
+			strCount=0;
+		}
 		return wordOccurrence;
-	
 	}
 
 	/**
@@ -356,7 +382,66 @@ public class EvaluationService {
 	 */
 	public String toPigLatin(String string) {
 		// TODO Write an implementation for this method declaration
-		return null;
+		//return null;
+		
+		ArrayList<Integer> vowelIndex = new ArrayList<>();
+		String pigString = "";
+		//int vowelIndex = 0;
+		String vowels = "aeiou";
+		String consonants = "bcdfghjklmnpqrstvwxyz";
+		String[] stringArray = string.split(" ");
+		if(string.contains(" ")) {
+			for(int i=0; i<stringArray.length; i++) {
+				if(vowels.contains(Character.toString(stringArray[i].charAt(0)))) {
+					stringArray[i] += "ay";
+				}
+			}
+			/*
+			for(int i=0; i<stringArray.length; i++) {
+				pigString = pigString + stringArray[i] + " ";
+			}
+			*/
+			for(int i=0; i<stringArray.length; i++) {
+				if(consonants.contains(Character.toString(stringArray[i].charAt(0)))) {
+					for(int j=0; j<stringArray[i].length(); j++) {
+						if(vowels.contains(Character.toString(stringArray[i].charAt(j)))) {
+//							if((Character.toString(stringArray[i].charAt(vowelIndex.get(i-1))) + 
+//									Character.toString(stringArray[i].charAt(vowelIndex.get(i)))) == "qu")
+//								vowelIndex.set(i, vowelIndex.get(i)+1);
+							if(((Character.toString(stringArray[i].charAt(j-1))) + 
+								Character.toString(stringArray[i].charAt(j))) == "qu"){
+									//vowelIndex.set(i, vowelIndex.get(i)+1);
+									vowelIndex.add(j+1);
+								} else {
+									vowelIndex.add(j);
+								}
+							break;
+						}
+					}
+				}
+			}
+			for(int i=0; i<stringArray.length; i++) {
+				pigString = pigString + stringArray[i].substring(vowelIndex.get(i),stringArray[i].length()) + stringArray[i].substring(0,vowelIndex.get(i)) + "ay ";
+			}
+		} else {
+			if(vowels.contains(Character.toString(string.charAt(0)))) {
+				pigString = string + "ay";
+			}
+			if(consonants.contains(Character.toString(string.charAt(0)))) {
+				for(int i=0; i<string.length(); i++) {
+					if(vowels.contains(Character.toString(string.charAt(i)))) {
+						vowelIndex.add(i);
+						break;
+					}
+					if(string.charAt(vowelIndex.get(0)) == 'u')
+						vowelIndex.set(0, vowelIndex.get(0)+1);
+				}
+				pigString = string.substring(vowelIndex.get(0),string.length()) + string.substring(0,vowelIndex.get(0)) + "ay";
+			}
+			
+		}
+		
+			return pigString.trim();
 	}
 
 	/**
@@ -376,7 +461,18 @@ public class EvaluationService {
 	 */
 	public boolean isArmstrongNumber(int input) {
 		// TODO Write an implementation for this method declaration
-		return false;
+		//return false;
+		
+		String numberStr = Integer.toString(input);
+		int powerNum = numberStr.length();
+		int armstrongSum = 0;
+		int runningInt;
+		for(int i=0; i<powerNum; i++) {
+			runningInt = Integer.parseInt(Character.toString(numberStr.charAt(i)));
+			armstrongSum += java.lang.Math.pow(runningInt, powerNum);
+		}
+		
+		return input==armstrongSum;
 	}
 
 	/**
@@ -391,7 +487,24 @@ public class EvaluationService {
 	 */
 	public List<Long> calculatePrimeFactorsOf(long l) {
 		// TODO Write an implementation for this method declaration
-		return null;
+		//return null;
+		
+		java.util.List<Long> primes = new java.util.ArrayList<>();
+		boolean morePrimes = true;
+		long runningPrime = 2;
+		while(morePrimes) {
+			if(l%runningPrime == 0) {
+				primes.add(runningPrime);
+				l /= runningPrime;
+			} else {
+				runningPrime++;
+			}
+			if(l/runningPrime == 0) {
+				morePrimes = false;
+			}
+		}
+		
+		return primes;
 	}
 
 	/**
