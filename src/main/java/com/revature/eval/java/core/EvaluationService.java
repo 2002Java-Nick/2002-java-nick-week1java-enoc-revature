@@ -3,8 +3,10 @@ package com.revature.eval.java.core;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.time.LocalDateTime;
 import java.time.temporal.Temporal;
 import java.util.List;
+import java.util.Locale;
 import java.util.Map;
 import java.util.Collection;
 
@@ -487,8 +489,9 @@ public class EvaluationService {
 	 */
 	public List<Long> calculatePrimeFactorsOf(long l) {
 		// TODO Write an implementation for this method declaration
-		//return null;
+		return null;
 		
+		/*
 		java.util.List<Long> primes = new java.util.ArrayList<>();
 		boolean morePrimes = true;
 		long runningPrime = 2;
@@ -505,6 +508,7 @@ public class EvaluationService {
 		}
 		
 		return primes;
+		*/
 	}
 
 	/**
@@ -594,8 +598,9 @@ public class EvaluationService {
 	 */
 	public int calculateNthPrime(int i) {
 		// TODO Write an implementation for this method declaration
-		//return 0;
+		return 0;
 		
+		/*
 		//boolean morePrimes = true;
 		//int runningPrime = 2;
 		int nthPrime;
@@ -609,6 +614,7 @@ public class EvaluationService {
 		//while(i<runningCount && morePrimes) {
 		//while(i<runningCount) {
 		while(i>primeList.size()) {
+		*/
 			/*
 			if(i%runningPrime == 0) {
 				i /= runningPrime;
@@ -619,6 +625,7 @@ public class EvaluationService {
 				morePrimes = false;
 			}
 			*/
+		/*
 			while(primeList.size() <= tempList.size()) {
 				tempList = this.calculatePrimeFactorsOf(runningInput);
 				runningInput++;
@@ -634,6 +641,7 @@ public class EvaluationService {
 		nthPrime =  java.lang.Math.toIntExact(primeList.get(primeList.size()-1));
 		//return (int) primeList.get(primeList.size()-1);
 		return nthPrime;
+		*/
 	}
 	/**
 	 * 13 & 14. Create an implementation of the atbash cipher, an ancient encryption
@@ -862,6 +870,20 @@ public class EvaluationService {
 	public Temporal getGigasecondDate(Temporal given) {
 		// TODO Write an implementation for this method declaration
 		return null;
+		
+		/*
+		String format = "yyyy/MM/dd hh:mm:ss";
+		Date date = new Date(millis)
+		//java.time.LocalDateTime datetime = new java.time.LocalDateTime();
+		java.time.LocalDateTime datetime = LocalDateTime.from(given);
+		//java.time.format.DateTimeFormatter format = java.time.format.DateTimeFormatter.patternOf(format);
+        //String p = "yyyy/MM/dd hh:mm:ss.SSS";
+        //DateTimeFormatter f = DateTimeFormatter.ofPattern(p);
+        //System.out.println("Current datetime: " + LocalDateTime.now().format(f));
+
+		
+		return null;
+		*/
 	}
 
 	/**
@@ -879,7 +901,42 @@ public class EvaluationService {
 	 */
 	public int getSumOfMultiples(int i, int[] set) {
 		// TODO Write an implementation for this method declaration
-		return 0;
+		//return 0;
+		
+		/*
+		java.util.Set<Integer> uniqueSet = new java.util.HashSet<>();
+		ArrayList<Integer> uniqueArray = new ArrayList<>();
+		ArrayList<Integer> toAddArray = new ArrayList<>();
+		for(int x : set)
+			uniqueSet.add(x);
+		uniqueArray.addAll(uniqueSet);
+		for(int x : uniqueArray) {
+			if(x%i == 0 && x != i)
+				toAddArray.add(x);
+		}
+		
+		int summation = 0;
+		for(int x : toAddArray) {
+			summation += x;
+		}
+		
+		
+		return uniqueArray.size();
+		*/
+		ArrayList<Integer> toAddArray = new ArrayList<>();
+		for(int j=2; j<i; j++) {
+			for(int k=0; k<toAddArray.size(); k++) {
+				if(j % set[k] == 0)
+					toAddArray.add(j);
+			}
+		}
+		
+		int summation = 0;
+		for(int x : toAddArray)
+			summation += x;
+		
+		//return summation;
+		return toAddArray.size();
 	}
 
 	/**
@@ -920,7 +977,47 @@ public class EvaluationService {
 	 */
 	public boolean isLuhnValid(String string) {
 		// TODO Write an implementation for this method declaration
-		return false;
+		//return false;
+		
+		string = string.replaceAll(" ", "");
+		char[] charArray = string.toCharArray();
+
+		// Validate input
+		for(char ch : charArray) {
+			if(!Character.isLetter(ch))
+				return false;
+		}
+		int[] intArray = new int[charArray.length];
+		for(int i=0; i<charArray.length; i++) {
+			intArray[i] = Integer.parseInt(Character.toString(charArray[i]));
+		//System.out.printf("charArray[%d]=%c%n", i, charArray[i]);
+		//System.out.printf("intArray[%d]=%c%n", i, intArray[i]);
+		}
+		
+		//System.out.printf("intArray.length=%d%n",intArray.length);
+
+		for(int i=0; i<intArray.length; i++) {
+			//System.out.println("i=" + i);
+			if((i+1)%2 == 0) {
+				System.out.printf("%n%n");
+				System.out.printf("i+1=%d%n",i+1);
+				System.out.println("(i+1)%2="+((i+1)%2));
+				System.out.printf("Before Doubling: intArray[%d]=%d%n", i, intArray[i]);
+				intArray[i] *= 2;
+				System.out.printf("Before Subtraction: intArray[%d]=%d%n", i, intArray[i]);
+				if(intArray[i] > 9)
+					intArray[i] -= 9;
+				System.out.printf("After: intArray[%d]=%d%n", i, intArray[i]);
+			}
+		}
+		
+		int summation = 0;
+		for(int x : intArray)
+			summation += x;
+
+		//return false;
+
+		return summation%10 == 0;
 	}
 
 	/**
@@ -952,7 +1049,39 @@ public class EvaluationService {
 	 */
 	public int solveWordProblem(String string) {
 		// TODO Write an implementation for this method declaration
-		return 0;
+		//return 0;
+		
+		string = string.replaceAll("\\?", "");
+		String[] stringArray = string.split(" ");
+		boolean[] operatorFlag = {false, false, false, false}; //0->Add, 1->Sub, 2->Mul, 3->Div
+		//String[] dataArray = new String[3];
+		if(string.contains("plus")) {
+			operatorFlag[0] = true;
+		} else if(string.contains("minus")) {
+			operatorFlag[1] = true;
+		} else if(string.contains("multiplied")) {
+			operatorFlag[2] = true;
+		} else {
+			operatorFlag[3] = true;
+		}
+		ArrayList<String> dataArray = new ArrayList<>();
+		for(String s : stringArray) {
+			if(!Character.isLetter(s.charAt(0)))
+				dataArray.add(s);
+		}
+		for(String s : dataArray)
+			System.out.println(s);
+		
+		if(operatorFlag[0])
+			return Integer.parseInt(dataArray.get(0)) + Integer.parseInt(dataArray.get(1));
+		else if(operatorFlag[1])
+			return Integer.parseInt(dataArray.get(0)) - Integer.parseInt(dataArray.get(1));
+		else if(operatorFlag[2])
+			return Integer.parseInt(dataArray.get(0)) * Integer.parseInt(dataArray.get(1));
+		else
+			return Integer.parseInt(dataArray.get(0)) / Integer.parseInt(dataArray.get(1));
+		
+		//return 0;
 	}
 
 }
