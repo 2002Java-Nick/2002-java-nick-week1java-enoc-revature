@@ -332,25 +332,15 @@ public class EvaluationService {
 			int cursor = sortedList.size()/2;
 			int index = cursor;
 			while(cursor != 0) {
-				System.out.println("\n\nwhile cursor=" + cursor);
-				System.out.println("while list elem = " + sortedList.get(cursor));
-				System.out.println("while list size = " + sortedList.size());
 				if(value > sortedList.get(cursor)) {
-					System.out.println("up before: cursor=" + cursor + ", index=" + index);
 					sortedList = sortedList.subList(cursor+1, sortedList.size());
-					System.out.println("up: substring size = " + sortedList.size());
 					cursor /= 2;
 					index += cursor;
-					System.out.println("up after: cursor=" + cursor + ", index=" + index);
 				} else if(value < sortedList.get(cursor)) {
-					System.out.println("down before: cursor=" + cursor + ", index=" + index);
 					sortedList = sortedList.subList(0, cursor);
-					System.out.println("down: substring size = " + sortedList.size());
 					cursor /= 2;
 					index -= cursor;
-					System.out.println("down after: cursor=" + cursor + ", index=" + index);
 				} else {
-					System.out.println("equal: cursor=" + cursor + ", index=" + index);
 					return index;
 				}
 			}
@@ -408,22 +398,18 @@ public class EvaluationService {
 		// Rearrange words
 		int lastConsonant;
 		String s;
-		System.out.println(stringArray.length);
 		for(int i=0; i<stringArray.length; i++) {
 			s = stringArray[i];
 			if(vowelsList.contains(s.charAt(0))) {
 				stringArray[i] += "ay";
 			} else {
-				System.out.println(s);
 				lastConsonant = 0;
 				for(int j=0; j<s.length(); j++) {
 					if(vowelsList.contains(s.charAt(j))) {
 						lastConsonant = j;
-					System.out.println("No q, j=" +lastConsonant);
 						break;
 					} else if(s.charAt(0) == 'q') {
 						lastConsonant = j+2;
-					System.out.println("Has q, j="+lastConsonant);
 						break;
 					}
 				}
@@ -544,14 +530,12 @@ public class EvaluationService {
 			char[] charArray = string.toCharArray();
 			char[] shiftedArray = new char[charArray.length];
 			for(int i=0; i<charArray.length; i++) {
-				//if(charArray[i]+this.key < )
 				if(!Character.isAlphabetic(charArray[i])) {
 					shiftedArray[i] = charArray[i];
 					continue;
 				}
 
 				charAsInt = charArray[i] + this.key;
-				//if(Character.isUpperCase(charArray[i]) && charAsInt > 90) {
 				if(Character.isUpperCase(charArray[i]) ) {
 					if(charAsInt > 90) {
 					shiftedArray[i] = (char) (charAsInt-26);
@@ -559,7 +543,6 @@ public class EvaluationService {
 					shiftedArray[i] = (char) (charAsInt);
 					}
 				} else {
-				//if(Character.isLowerCase(charArray[i]) && charAsInt > 122) {
 					if(charAsInt > 122) {
 						shiftedArray[i] = (char) (charAsInt-26);
 					} else {
@@ -606,26 +589,10 @@ public class EvaluationService {
 			for(Long x : primeList)
 				if(!uniqueList.contains(x))
 					uniqueList.add(x);
-			/*
-			System.out.println("\nprimeList, iter " + (inputToPrime-1) + " :");
-			for(Long x : primeList)
-				System.out.println(x);
-			System.out.println("\nuniqueList, iter " + (inputToPrime-1) + " :");
-			for(Long x : uniqueList)
-				System.out.println(x);
-				*/
-			//System.out.println(inputToPrime);
 		}while(uniqueList.size()<i);
-		/*
-		for(long x : primeList)
-			System.out.println(x);
-		*/
 
 		String temp =  Long.toString(primeList.get(primeList.size()-1));
-		//System.out.println("String nthPrime = " +temp);
 		int nthPrime = Integer.parseInt(temp);
-		//System.out.println("Integer nthPrime = " +nthPrime);
-		//return 0;
 		return nthPrime;
 	}
 	/**
@@ -863,10 +830,8 @@ public class EvaluationService {
 
 		if(given.getClass().equals(LocalDateTime.class)) {
 			dateTimeNow = ((LocalDateTime) given).plusSeconds(gigSec);
-			System.out.println("Runs LocalDateTime");
 			return dateTimeNow.plusSeconds(gigSec);
 		} else if(given.getClass().equals(LocalDate.class)) {
-			System.out.println("Runs LocalDate");
 			return ((LocalDate) given).plusDays(gigSec/60/60/24);
 		}
 
@@ -1018,7 +983,6 @@ public class EvaluationService {
 		string = string.replaceAll("\\?", "");
 		String[] stringArray = string.split(" ");
 		boolean[] operatorFlag = {false, false, false, false}; //0->Add, 1->Sub, 2->Mul, 3->Div
-		//String[] dataArray = new String[3];
 		if(string.contains("plus")) {
 			operatorFlag[0] = true;
 		} else if(string.contains("minus")) {
@@ -1033,8 +997,6 @@ public class EvaluationService {
 			if(!Character.isLetter(s.charAt(0)))
 				dataArray.add(s);
 		}
-		for(String s : dataArray)
-			System.out.println(s);
 		
 		if(operatorFlag[0])
 			return Integer.parseInt(dataArray.get(0)) + Integer.parseInt(dataArray.get(1));
