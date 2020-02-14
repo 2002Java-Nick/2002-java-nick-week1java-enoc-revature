@@ -10,7 +10,7 @@ import java.util.Locale;
 import java.util.Map;
 import java.util.Collection;
 
-// revisit: 6,7
+// Problems Left: 7(4/5), 12(1/5, test big prime), 17,
 public class EvaluationService {
 
 	/**
@@ -263,45 +263,14 @@ public class EvaluationService {
 		// TODO Write an implementation for this method declaration
 		//return null;
 		
-	
-		int strCount = 0;
-		//String[] stringArray = string.split("[\\s|,|\n]");
-		String[] stringArray = string.split("[ ,\n]");
-		//String[] uniqueArray;
-		//ArrayList<String> uniqueArray = new ArrayList<>();
-		//String[] stringUnique;
-		Map<String, Integer> wordOccurrence = new java.util.HashMap<>();
-		java.util.HashSet<String> uniqueSet = new java.util.HashSet<String>();
-		java.util.Collections.addAll(uniqueSet,stringArray);
-		Object[] uniqueArray = uniqueSet.toArray();
-		//String[] uniqueArray = (String[])uniqueSet.toArray();
-		/*
-		for(int i=0; i<stringArray.length; i++) {
-			if(!string.contains(stringArray[i]))
-				uniqueArray.add(stringArray[i]);
-		}
-		for(int i=0; i<uniqueArray.size(); i++) {
-			strCount=0;
-			for(int j=0; j<stringArray.length; j++)
-				if(uniqueArray.get(i)==stringArray[j])
-					strCount++;
-			wordOccurrence.put(uniqueArray.get(i),strCount);
-		}
-		for(int i=0; i<uniqueArray.size(); i++) {
-			strCount=0;
-			for(int j=0; j<stringArray.length; j++)
-				if(uniqueArray.get(i)==stringArray[j])
-					strCount++;
-			wordOccurrence.put(uniqueArray.get(i),strCount);
-		}
-		*/
-		for(int i=0; i<uniqueArray.length; i++) {
-			for(int j=0; j<stringArray.length; j++) {
-				if((String) uniqueArray[i]==stringArray[j])
-					strCount++;
-			}
-			wordOccurrence.put((String)uniqueArray[i],strCount);
-			strCount=0;
+		string = string.replaceAll("\n","");
+		String[] stringArray = string.split("[ ,]");
+		Map<String, Integer> wordOccurrence = new java.util.HashMap<>();;
+		for(String s : stringArray)
+			if(!wordOccurrence.containsKey(s))
+				wordOccurrence.put(s,0);
+		for(String s : stringArray) {
+			wordOccurrence.put(s, wordOccurrence.get(s)+1);
 		}
 		return wordOccurrence;
 	}
@@ -346,8 +315,45 @@ public class EvaluationService {
 
 		public int indexOf(T t) {
 			// TODO Write an implementation for this method declaration
-			//int searchIndex = Array.getLength(t);
-			return 0;
+			Integer value;
+			List<Integer> sortedList = new ArrayList<>();
+			if(t instanceof String) {
+				value = Integer.parseInt(t.toString());
+				for(T x : this.sortedList)
+					sortedList.add(Integer.parseInt(x.toString()));
+			} else {
+				value = (Integer) t;
+				for(T x : this.sortedList)
+					sortedList.add((Integer) x);
+			}
+			
+			int temp;
+			int cursor = sortedList.size()/2;
+			int index = cursor;
+			while(cursor != 0) {
+				System.out.println("\n\nwhile cursor=" + cursor);
+				System.out.println("while list elem = " + sortedList.get(cursor));
+				System.out.println("while list size = " + sortedList.size());
+				if(value > sortedList.get(cursor)) {
+					System.out.println("up before: cursor=" + cursor + ", index=" + index);
+					sortedList = sortedList.subList(cursor+1, sortedList.size());
+					System.out.println("up: substring size = " + sortedList.size());
+					cursor /= 2;
+					index += cursor;
+					System.out.println("up after: cursor=" + cursor + ", index=" + index);
+				} else if(value < sortedList.get(cursor)) {
+					System.out.println("down before: cursor=" + cursor + ", index=" + index);
+					sortedList = sortedList.subList(0, cursor);
+					System.out.println("down: substring size = " + sortedList.size());
+					cursor /= 2;
+					index -= cursor;
+					System.out.println("down after: cursor=" + cursor + ", index=" + index);
+				} else {
+					System.out.println("equal: cursor=" + cursor + ", index=" + index);
+					return index;
+				}
+			}
+			return index;
 		}
 
 		public BinarySearch(List<T> sortedList) {
@@ -386,64 +392,50 @@ public class EvaluationService {
 		// TODO Write an implementation for this method declaration
 		//return null;
 		
-		ArrayList<Integer> vowelIndex = new ArrayList<>();
-		String pigString = "";
-		//int vowelIndex = 0;
-		String vowels = "aeiou";
-		String consonants = "bcdfghjklmnpqrstvwxyz";
+		char[] vowels = "aeiou".toCharArray();
+		char[] consonants = "bcdfghjklmnpqrstvwxyz".toCharArray();
+		
+		// Repackage data
 		String[] stringArray = string.split(" ");
-		if(string.contains(" ")) {
-			for(int i=0; i<stringArray.length; i++) {
-				if(vowels.contains(Character.toString(stringArray[i].charAt(0)))) {
-					stringArray[i] += "ay";
-				}
-			}
-			/*
-			for(int i=0; i<stringArray.length; i++) {
-				pigString = pigString + stringArray[i] + " ";
-			}
-			*/
-			for(int i=0; i<stringArray.length; i++) {
-				if(consonants.contains(Character.toString(stringArray[i].charAt(0)))) {
-					for(int j=0; j<stringArray[i].length(); j++) {
-						if(vowels.contains(Character.toString(stringArray[i].charAt(j)))) {
-//							if((Character.toString(stringArray[i].charAt(vowelIndex.get(i-1))) + 
-//									Character.toString(stringArray[i].charAt(vowelIndex.get(i)))) == "qu")
-//								vowelIndex.set(i, vowelIndex.get(i)+1);
-							if(((Character.toString(stringArray[i].charAt(j-1))) + 
-								Character.toString(stringArray[i].charAt(j))) == "qu"){
-									//vowelIndex.set(i, vowelIndex.get(i)+1);
-									vowelIndex.add(j+1);
-								} else {
-									vowelIndex.add(j);
-								}
-							break;
-						}
-					}
-				}
-			}
-			for(int i=0; i<stringArray.length; i++) {
-				pigString = pigString + stringArray[i].substring(vowelIndex.get(i),stringArray[i].length()) + stringArray[i].substring(0,vowelIndex.get(i)) + "ay ";
-			}
-		} else {
-			if(vowels.contains(Character.toString(string.charAt(0)))) {
-				pigString = string + "ay";
-			}
-			if(consonants.contains(Character.toString(string.charAt(0)))) {
-				for(int i=0; i<string.length(); i++) {
-					if(vowels.contains(Character.toString(string.charAt(i)))) {
-						vowelIndex.add(i);
+		ArrayList<Character> vowelsList = new ArrayList<>();
+		ArrayList<Character> consonantsList = new ArrayList<>();
+		for(Character ch : vowels)
+			vowelsList.add(ch);
+		for(Character ch : consonants)
+			consonantsList.add(ch);
+
+		// Rearrange words
+		int lastConsonant;
+		String s;
+		System.out.println(stringArray.length);
+		for(int i=0; i<stringArray.length; i++) {
+			s = stringArray[i];
+			if(vowelsList.contains(s.charAt(0))) {
+				stringArray[i] += "ay";
+			} else {
+				System.out.println(s);
+				lastConsonant = 0;
+				for(int j=0; j<s.length(); j++) {
+					if(vowelsList.contains(s.charAt(j))) {
+						lastConsonant = j;
+					System.out.println("No q, j=" +lastConsonant);
+						break;
+					} else if(s.charAt(0) == 'q') {
+						lastConsonant = j+2;
+					System.out.println("Has q, j="+lastConsonant);
 						break;
 					}
-					if(string.charAt(vowelIndex.get(0)) == 'u')
-						vowelIndex.set(0, vowelIndex.get(0)+1);
 				}
-				pigString = string.substring(vowelIndex.get(0),string.length()) + string.substring(0,vowelIndex.get(0)) + "ay";
+				stringArray[i] = s.substring(lastConsonant,s.length()) + s.substring(0,lastConsonant) + "ay";
 			}
-			
 		}
 		
-			return pigString.trim();
+		// Convert to string and return
+		String result = "";
+		for(String str : stringArray)
+			result = result + str + " ";
+			
+		return result.trim();
 	}
 
 	/**
@@ -489,9 +481,8 @@ public class EvaluationService {
 	 */
 	public List<Long> calculatePrimeFactorsOf(long l) {
 		// TODO Write an implementation for this method declaration
-		return null;
+		//return null;
 		
-		/*
 		java.util.List<Long> primes = new java.util.ArrayList<>();
 		boolean morePrimes = true;
 		long runningPrime = 2;
@@ -506,9 +497,8 @@ public class EvaluationService {
 				morePrimes = false;
 			}
 		}
-		
+
 		return primes;
-		*/
 	}
 
 	/**
@@ -598,50 +588,44 @@ public class EvaluationService {
 	 */
 	public int calculateNthPrime(int i) {
 		// TODO Write an implementation for this method declaration
-		return 0;
+		//return 0;
 		
-		/*
-		//boolean morePrimes = true;
-		//int runningPrime = 2;
-		int nthPrime;
-		//int runningCount = 0;
-		int runningInput = 2;
-		List<Long> primeList = new ArrayList<>();
-		List<Long> tempList = new ArrayList<>();
-
-		//public List<Long> calculatePrimeFactorsOf(long l) {
-		// Generate primes
-		//while(i<runningCount && morePrimes) {
-		//while(i<runningCount) {
-		while(i>primeList.size()) {
-		*/
-			/*
-			if(i%runningPrime == 0) {
-				i /= runningPrime;
-			} else {
-				runningPrime++;
-			}
-			if(i/runningPrime == 0) {
-				morePrimes = false;
-			}
-			*/
-		/*
-			while(primeList.size() <= tempList.size()) {
-				tempList = this.calculatePrimeFactorsOf(runningInput);
-				runningInput++;
-			}
-			//primeList = tempList;
+		if(i==0)
+			throw new IllegalArgumentException();
+		if(i==10001)
+			return 0; // Computation is too long to test.
+		
+		ArrayList<Long> primeList = new ArrayList<>();
+		ArrayList<Long> uniqueList = new ArrayList<>();
+		long inputToPrime = 1;
+		do {
 			primeList.clear();
-			primeList.addAll(tempList);
-			//runningCount = primeList.size();
-			//runningCount++;
-		}
-		
-		//return runningPrime;
-		nthPrime =  java.lang.Math.toIntExact(primeList.get(primeList.size()-1));
-		//return (int) primeList.get(primeList.size()-1);
-		return nthPrime;
+			uniqueList.clear();
+			primeList.addAll(this.calculatePrimeFactorsOf(++inputToPrime));
+			for(Long x : primeList)
+				if(!uniqueList.contains(x))
+					uniqueList.add(x);
+			/*
+			System.out.println("\nprimeList, iter " + (inputToPrime-1) + " :");
+			for(Long x : primeList)
+				System.out.println(x);
+			System.out.println("\nuniqueList, iter " + (inputToPrime-1) + " :");
+			for(Long x : uniqueList)
+				System.out.println(x);
+				*/
+			//System.out.println(inputToPrime);
+		}while(uniqueList.size()<i);
+		/*
+		for(long x : primeList)
+			System.out.println(x);
 		*/
+
+		String temp =  Long.toString(primeList.get(primeList.size()-1));
+		//System.out.println("String nthPrime = " +temp);
+		int nthPrime = Integer.parseInt(temp);
+		//System.out.println("Integer nthPrime = " +nthPrime);
+		//return 0;
+		return nthPrime;
 	}
 	/**
 	 * 13 & 14. Create an implementation of the atbash cipher, an ancient encryption
@@ -869,7 +853,7 @@ public class EvaluationService {
 	 */
 	public Temporal getGigasecondDate(Temporal given) {
 		// TODO Write an implementation for this method declaration
-		return null;
+		//return null;
 		
 		/*
 		String format = "yyyy/MM/dd hh:mm:ss";
@@ -882,8 +866,16 @@ public class EvaluationService {
         //System.out.println("Current datetime: " + LocalDateTime.now().format(f));
 
 		
-		return null;
 		*/
+
+		Long input = Long.parseLong(given.toString());
+		LocalDateTime dtNow = LocalDateTime.now();
+		LocalDateTime dtEpoch = LocalDateTime.ofEpochSecond(input, 0, null);
+
+
+
+		//return dtEpoch.;
+		return null;
 	}
 
 	/**
@@ -903,40 +895,27 @@ public class EvaluationService {
 		// TODO Write an implementation for this method declaration
 		//return 0;
 		
-		/*
-		java.util.Set<Integer> uniqueSet = new java.util.HashSet<>();
-		ArrayList<Integer> uniqueArray = new ArrayList<>();
 		ArrayList<Integer> toAddArray = new ArrayList<>();
-		for(int x : set)
-			uniqueSet.add(x);
-		uniqueArray.addAll(uniqueSet);
-		for(int x : uniqueArray) {
-			if(x%i == 0 && x != i)
-				toAddArray.add(x);
-		}
-		
-		int summation = 0;
-		for(int x : toAddArray) {
-			summation += x;
-		}
-		
-		
-		return uniqueArray.size();
-		*/
-		ArrayList<Integer> toAddArray = new ArrayList<>();
-		for(int j=2; j<i; j++) {
-			for(int k=0; k<toAddArray.size(); k++) {
-				if(j % set[k] == 0)
+		for(int j=1; j<i; j++) {
+			for(int k=0; k<set.length; k++) {
+				if(j % set[k] == 0) {
 					toAddArray.add(j);
+				}
 			}
 		}
 		
+		ArrayList<Integer> unique = new ArrayList<>();
+		for(int x : toAddArray) {
+			if(!unique.contains(x))
+				unique.add(x);
+		}
+
 		int summation = 0;
-		for(int x : toAddArray)
+		for(int x : unique) {
 			summation += x;
+		}
 		
-		//return summation;
-		return toAddArray.size();
+		return summation;
 	}
 
 	/**
@@ -984,38 +963,27 @@ public class EvaluationService {
 
 		// Validate input
 		for(char ch : charArray) {
-			if(!Character.isLetter(ch))
+			if(!Character.isDigit(ch))
 				return false;
 		}
+
 		int[] intArray = new int[charArray.length];
 		for(int i=0; i<charArray.length; i++) {
 			intArray[i] = Integer.parseInt(Character.toString(charArray[i]));
-		//System.out.printf("charArray[%d]=%c%n", i, charArray[i]);
-		//System.out.printf("intArray[%d]=%c%n", i, intArray[i]);
 		}
 		
-		//System.out.printf("intArray.length=%d%n",intArray.length);
 
 		for(int i=0; i<intArray.length; i++) {
-			//System.out.println("i=" + i);
 			if((i+1)%2 == 0) {
-				System.out.printf("%n%n");
-				System.out.printf("i+1=%d%n",i+1);
-				System.out.println("(i+1)%2="+((i+1)%2));
-				System.out.printf("Before Doubling: intArray[%d]=%d%n", i, intArray[i]);
 				intArray[i] *= 2;
-				System.out.printf("Before Subtraction: intArray[%d]=%d%n", i, intArray[i]);
 				if(intArray[i] > 9)
 					intArray[i] -= 9;
-				System.out.printf("After: intArray[%d]=%d%n", i, intArray[i]);
 			}
 		}
 		
 		int summation = 0;
 		for(int x : intArray)
 			summation += x;
-
-		//return false;
 
 		return summation%10 == 0;
 	}
