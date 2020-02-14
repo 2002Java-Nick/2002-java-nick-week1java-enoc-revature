@@ -3,6 +3,7 @@ package com.revature.eval.java.core;
 
 import java.lang.reflect.Array;
 import java.util.ArrayList;
+import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.time.temporal.Temporal;
 import java.util.List;
@@ -855,26 +856,21 @@ public class EvaluationService {
 		// TODO Write an implementation for this method declaration
 		//return null;
 		
-		/*
-		String format = "yyyy/MM/dd hh:mm:ss";
-		Date date = new Date(millis)
-		//java.time.LocalDateTime datetime = new java.time.LocalDateTime();
-		java.time.LocalDateTime datetime = LocalDateTime.from(given);
-		//java.time.format.DateTimeFormatter format = java.time.format.DateTimeFormatter.patternOf(format);
-        //String p = "yyyy/MM/dd hh:mm:ss.SSS";
-        //DateTimeFormatter f = DateTimeFormatter.ofPattern(p);
-        //System.out.println("Current datetime: " + LocalDateTime.now().format(f));
 
-		
-		*/
+		long gigSec = (long) java.lang.Math.pow(10,9);
+		LocalDateTime dateTimeNow = LocalDateTime.now();
+		LocalDate dateNow = LocalDate.now();
 
-		Long input = Long.parseLong(given.toString());
-		LocalDateTime dtNow = LocalDateTime.now();
-		LocalDateTime dtEpoch = LocalDateTime.ofEpochSecond(input, 0, null);
+		if(given.getClass().equals(LocalDateTime.class)) {
+			dateTimeNow = ((LocalDateTime) given).plusSeconds(gigSec);
+			System.out.println("Runs LocalDateTime");
+			return dateTimeNow.plusSeconds(gigSec);
+		} else if(given.getClass().equals(LocalDate.class)) {
+			System.out.println("Runs LocalDate");
+			return ((LocalDate) given).plusDays(gigSec/60/60/24);
+		}
 
 
-
-		//return dtEpoch.;
 		return null;
 	}
 
